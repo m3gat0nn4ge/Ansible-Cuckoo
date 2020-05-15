@@ -31,7 +31,7 @@
     state: present
     update_cache: false
 
-- name: Install pyhton-virtualenv package
+- name: Install python-virtualenv package
   become: true
   become_method: sudo
   apt:
@@ -39,7 +39,7 @@
     state: present
     update_cache: false
 
-- name: Install pyhton-setuptools package
+- name: Install python-setuptools package
   become: true
   become_method: sudo
   apt:
@@ -127,7 +127,7 @@
     state: present
     update_cache: false
 
-- name: Install pyhton-libvirt package
+- name: Install python-libvirt package
   become: true
   become_method: sudo
   apt:
@@ -484,3 +484,20 @@
     pkg: libyaml-doc
     state: present
     update_cache: false
+
+- name: Install openjdk package
+  become: true
+  become_method: sudo
+  apt:
+    pkg: openjdk-8-jre-headless
+    state: present
+    update_cache: false
+
+- name: Install curl package
+  become: true
+  become_method: sudo
+  apt:
+    pkg: curl
+    state: present
+    update_cache: false
+

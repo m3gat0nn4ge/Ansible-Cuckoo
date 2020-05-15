@@ -2,10 +2,10 @@
 - name: Install Cuckoo into virtualenv - {{ cuckoo_dir }}
   become: true
   become_method: sudo
-  pip: name={{ item }} state=latest virtualenv="{{ cuckoo_dir }}"
+  pip: "name={{ item }} state=latest virtualenv={{ cuckoo_dir }}"
   with_items:
     - pip
-    - setuptools
+    - setuptools<45
     - psycopg2
     - cuckoo
 

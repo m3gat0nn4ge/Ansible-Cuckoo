@@ -1,12 +1,20 @@
 ---
-- name: Download and uncompress Volatility source
+- name: Download Volatility source
+  become: true
+  become_method: sudo
+  become_user: "{{ cuckoo_user }}"
+  get_url:
+    url: https://github.com/volatilityfoundation/volatility/archive/{{ volatility_ver }}.tar.gz
+    dest: /home/cuckoo/
+
+- name: Uncompress Volatility source
   become: true
   become_method: sudo
   become_user: "{{ cuckoo_user }}"
   unarchive:
-    src: https://github.com/volatilityfoundation/volatility/archive/{{ volatility_ver }}.tar.gz
+    src: /home/cuckoo/volatility-{{ volatility_ver }}.tar.gz
     dest: "{{ build_dir }}"
-    remote_src: true
+    remote_src: yes
 
 - name: Build Volatility
   become: true

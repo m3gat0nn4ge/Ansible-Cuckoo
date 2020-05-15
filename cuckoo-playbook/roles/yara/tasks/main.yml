@@ -1,12 +1,20 @@
 ---
-- name: Download and uncompress Yara source
+- name: Download Yara source
+  become: true
+  become_method: sudo
+  become_user: "{{ cuckoo_user }}"
+  get_url:
+    url: https://github.com/VirusTotal/yara/archive/v{{ yara_ver }}.tar.gz
+    dest: /home/cuckoo/
+
+- name: Uncompress Yara source
   become: true
   become_method: sudo
   become_user: "{{ cuckoo_user }}"
   unarchive:
-    src: https://github.com/VirusTotal/yara/archive/v{{ yara_ver }}.tar.gz
+    src: /home/cuckoo/yara-{{ yara_ver }}.tar.gz
     dest: "{{ build_dir }}"
-    remote_src: true
+    remote_src: yes
 
 - name: Bootstrap Yara
   become: true

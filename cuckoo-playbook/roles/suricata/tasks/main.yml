@@ -1,12 +1,20 @@
 ---
-- name: Download and uncompress Suricata source
+- name: Download Suricata source
+  become: true
+  become_method: sudo
+  become_user: "{{ cuckoo_user }}"
+  get_url:
+    url: http://www.openinfosecfoundation.org/download/suricata-{{ suricata_ver }}.tar.gz
+    dest: /home/cuckoo/
+
+- name: Uncompress Suricata source
   become: true
   become_method: sudo
   become_user: "{{ cuckoo_user }}"
   unarchive:
-    src: http://www.openinfosecfoundation.org/download/suricata-{{ suricata_ver }}.tar.gz
+    src: /home/cuckoo/suricata-{{ suricata_ver }}.tar.gz
     dest: "{{ build_dir }}"
-    remote_src: true
+    remote_src: yes
 
 - name: Build Suricata
   become: true

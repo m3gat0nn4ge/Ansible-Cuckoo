@@ -29,6 +29,28 @@
   shell: "dpkg -i /tmp/moloch_{{ moloch_ver }}_amd64.deb"
   when: "'error' in install_moloch_result.stderr"
 
+- name: Copy GeoIP files to /tmp
+  become: true
+  become_method: sudo
+  copy:
+    src: "files/{{ item }}"
+    dest: "/tmp/{{ item }}"
+  with_items:
+    - GeoIPASNum.dat.gz
+    - GeoIPASNumv6.dat.gz
+    - GeoIP.dat.gz
+    - GeoIPv6.dat.gz
+
+- name: Fix GeoIP broken download
+  become: true
+  become_method: sudo
+  copy:
+    src: files/moloch_update_geo.sh
+    dest: /data/moloch/bin/moloch_update_geo.sh
+    owner: root
+    group: root
+    mode: 0755
+
 - name: Information...
   debug:
     msg: "READ /data/moloch/README.txt and RUN sudo /data/moloch/bin/Configure"
@@ -39,7 +61,7 @@
 - name: Configure Moloch initialization
   become: true
   become_method: sudo
-  shell: "/data/moloch/db/db.pl http://localhost:9200 init"
+  shell: "echo INIT | /data/moloch/db/db.pl http://localhost:9200 init"
 
 - name: Configure Moloch user
   become: true

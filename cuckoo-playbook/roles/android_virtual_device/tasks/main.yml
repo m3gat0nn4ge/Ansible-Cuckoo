@@ -4,15 +4,23 @@
     path: /home/cuckoo/android-sdk-linux
   register: android_sdk_linux
 
-- name: Download and uncompress Android SDK
+- name: Download Android SDK
+  become: true
+  become_method: sudo
+  become_user: "{{ cuckoo_user }}"
+  get_url:
+    url: http://dl.google.com/android/android-sdk_{{ sdk_ver }}-linux.tgz
+    dest: /home/cuckoo/
+  when: android_sdk_linux.stat.isdir is not defined
+
+- name: Uncompress Android SDK
   become: true
   become_method: sudo
   become_user: "{{ cuckoo_user }}"
   unarchive:
-    src: http://dl.google.com/android/android-sdk_{{ sdk_ver }}-linux.tgz
-    dest: "/home/cuckoo"
-    remote_src: true
-  when: android_sdk_linux.stat.isdir is not defined
+    src: /home/cuckoo/android-sdk_{{ sdk_ver }}-linux.tgz
+    dest: "/home/cuckoo/"
+    remote_src: yes
 
 - name: Check if build-tools is in place
   stat:

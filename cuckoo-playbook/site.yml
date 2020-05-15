@@ -10,7 +10,6 @@
     - ubuntu_packages
     - python_packages
     - postgresql
-    - java
     - elasticsearch
     - android_virtual_device
     - virtualbox
